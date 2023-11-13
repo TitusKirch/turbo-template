@@ -1,4 +1,4 @@
-name: CI Job
+name: CI
 
 on:
   push:
@@ -6,111 +6,20 @@ on:
   pull_request:
     branches: ["main"]
 
-
 jobs:
-  prepare:
-    runs-on: ${{ inputs.os }}
-    timeout-minutes: 10
-
-    name: Prepare on Node.js ${{ inputs.node-version }} (${{ inputs.os }}) 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Enable corepack
-        run: corepack enable
-      
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ inputs.node-version }}
-          cache: "pnpm"
-
-      - name: Restore node_modules folder
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ inputs.os }}-node-${{ inputs.node-version }}-${{ github.base_ref }}
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Cache node_modules folder
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ inputs.os }}-node-${{ inputs.node-version }}-${{ github.base_ref }}
-
-
-  lint-and-format:
-    needs:
-      - prepare
-    runs-on: ${{ inputs.os }}
-    timeout-minutes: 10
-
-    name: Lint and format on Node.js ${{ inputs.node-version }} (${{ inputs.os }})
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Enable corepack
-        run: corepack enable
-      
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ inputs.node-version }}
-          cache: "pnpm"
-      
-      - name: Restore node_modules folder
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ inputs.os }}-node-${{ inputs.node-version }}-${{ github.base_ref }}
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Linting
-        run: pnpm run lint
-
-      - name: Formatting
-        run: pnpm run format
-
-  build:
-    needs:
-      - prepare
-    runs-on: ${{ inputs.os }}
-    timeout-minutes: 10
-
-    name: Build on Node.js ${{ inputs.node-version }} (${{ inputs.os }})
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Enable corepack
-        run: corepack enable
-      
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ inputs.node-version }}
-          cache: "pnpm"
-
-      - name: Restore node_modules folder
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ inputs.os }}-node-${{ inputs.node-version }}-${{ github.base_ref }}
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm run build:ci
-      
-      - name: Cache .turbo folder
-        uses: actions/cache@v3
-        with:
-          path: .turbo
-          key: ${{ inputs.os }}-turbo-${{ inputs.node-version }}-${{ github.sha }}
+  ci-job:
+    name: CI
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: ["20.x"]
+      fail-fast: true
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: ./.github/workflows/ci-job.yml
+    with:
+      os: ${{ matrix.os }}
+      node-version: ${{ matrix.node-version }}
+      github-event-name: ${{ github.event_name }}
+    secrets: inherit
