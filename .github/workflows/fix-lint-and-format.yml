@@ -1,0 +1,55 @@
+name: Fix lint and format
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - "dependabot/*"
+
+jobs:
+  fix-lint-and-format:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: ["20.x"]
+      fail-fast: false
+    timeout-minutes: 10
+
+    permissions:
+      contents: write
+
+    name: Fix lint and format on Node.js ${{ matrix.node-version }} (${{ matrix.os }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Enable corepack
+        run: corepack enable
+      
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      
+      - name: Restore node_modules folder
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ github.base_ref }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Linting (fix)
+        run: pnpm run lint:fix
+      
+      - name: Formatting (fix)
+        run: pnpm run format:fix
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Fix lint and format"
+          skip_fetch: true

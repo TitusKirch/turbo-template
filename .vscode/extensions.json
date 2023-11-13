@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "mike-co.import-sorter",
+    "redhat.vscode-yaml",
+    "richie5um2.vscode-sort-json",
+  ]
+}
