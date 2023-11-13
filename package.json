@@ -6,8 +6,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "format:fix": "npx prettier --write \"./**/*.{ts,tsx,vue,css}\"",
-    "format": "npx prettier --check \"./**/*.{ts,tsx,vue,css}\"",
+    "format:fix": "npx prettier --write \"./**/*.{js,ts,tsx,vue,css}\"",
+    "format": "npx prettier --check \"./**/*.{js,ts,tsx,vue,css}\"",
     "lint:fix": "eslint --fix apps packages services --max-warnings=0",
     "lint": "eslint . --max-warnings=0"
   },

@@ -1,0 +1,9 @@
+{
+  "name": "@tituskirch/turbo-template-package-example",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node src/index.js",
+    "dev": "node src/index.js --dev"
+  }
+}
