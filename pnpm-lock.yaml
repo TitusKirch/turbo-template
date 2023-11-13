@@ -23,6 +23,8 @@ importers:
 
   apps/example: {}
 
+  packages/example: {}
+
   packages/tsconfig: {}
 
   services/example: {}
