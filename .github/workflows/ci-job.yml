@@ -24,7 +24,7 @@ jobs:
     name: Prepare on Node.js ${{ inputs.node-version }} (${{ inputs.os }}) 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -60,7 +60,7 @@ jobs:
     name: Lint and format on Node.js ${{ inputs.node-version }} (${{ inputs.os }})
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -95,7 +95,7 @@ jobs:
     name: Build on Node.js ${{ inputs.node-version }} (${{ inputs.os }})
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
