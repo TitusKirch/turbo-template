@@ -12,7 +12,7 @@
     "lint": "eslint . --max-warnings=0"
   },
   "devDependencies": {
-    "eslint": "^8.48.0",
+    "eslint": "^8.55.0",
     "prettier": "^3.0.3",
     "@tituskirch/turbo-template-tsconfig": "workspace:*",
     "turbo": "latest"
