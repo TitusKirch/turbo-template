@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "eslint": "^8.48.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.1",
     "@tituskirch/turbo-template-tsconfig": "workspace:*",
     "turbo": "latest"
   },
